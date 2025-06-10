@@ -1,0 +1,41 @@
+name: CI Build
+
+# Perform CI builds for pull requests targeting the dev branches.
+
+on:
+  push
+
+jobs:
+  linux:
+    name: Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        wget https://cdn.geekbench.com/Geekbench-6.4.0-Linux.tar.gz
+        tar xf Geekbench-6.4.0-Linux.tar.gz
+    - name: Run geekbench
+      run: |
+        ./Geekbench-6.4.0-Linux/geekbench6 --version
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        choco install geekbench
+    - name: Run geekbench
+      run: |
+        geekbench6 --version
+
+  macOS:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        brew install geekbench
+    - name: Run geekbench
+      run: |
+        geekbench6 --version
