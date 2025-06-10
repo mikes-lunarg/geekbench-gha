@@ -1,0 +1,42 @@
+name: Run Geekbench
+
+on:
+  workflow_dispatch
+
+jobs:
+  linux:
+    name: Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        wget https://cdn.geekbench.com/Geekbench-6.4.0-Linux.tar.gz
+        tar xf Geekbench-6.4.0-Linux.tar.gz
+        echo "$PWD/Geekbench-6.4.0-Linux" >> $GITHUB_PATH
+    - name: Run geekbench
+      run: |
+        geekbench6
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        choco install geekbench
+        Add-Content $env:GITHUB_PATH "C:\Program Files (x86)\Geekbench 6"
+    - name: Run geekbench
+      run: |
+        geekbench6
+
+  macOS:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+    - name: Install geekbench
+      run: |
+        brew install geekbench
+        echo "/Applications/Geekbench 6.app/Contents/Resources" >> $GITHUB_PATH
+    - name: Run geekbench
+      run: |
+        geekbench6
