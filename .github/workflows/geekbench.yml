@@ -1,9 +1,7 @@
-name: CI Build
-
-# Perform CI builds for pull requests targeting the dev branches.
+name: Run Geekbench
 
 on:
-  push
+  workflow_dispatch
 
 jobs:
   linux:
@@ -14,9 +12,10 @@ jobs:
       run: |
         wget https://cdn.geekbench.com/Geekbench-6.4.0-Linux.tar.gz
         tar xf Geekbench-6.4.0-Linux.tar.gz
+        echo "$PWD/Geekbench-6.4.0-Linux" >> $GITHUB_PATH
     - name: Run geekbench
       run: |
-        ./Geekbench-6.4.0-Linux/geekbench6 --version
+        geekbench6
 
   windows:
     name: Windows
@@ -25,9 +24,10 @@ jobs:
     - name: Install geekbench
       run: |
         choco install geekbench
+        Add-Content $env:GITHUB_PATH "C:\Program Files (x86)\Geekbench 6"
     - name: Run geekbench
       run: |
-        geekbench6 --version
+        geekbench6
 
   macOS:
     name: macOS
@@ -36,6 +36,7 @@ jobs:
     - name: Install geekbench
       run: |
         brew install geekbench
+        echo "/Applications/Geekbench 6.app/Contents/Resources" >> $GITHUB_PATH
     - name: Run geekbench
       run: |
-        geekbench6 --version
+        geekbench6
